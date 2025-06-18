@@ -19,7 +19,6 @@ export default function NavBar() {
       display: 'flex',
       justifyContent: 'center',
       gap: '2rem',
-      padding: '1.5rem 0',
       fontWeight: 'bold',
       letterSpacing: '1px',
       background: 'rgba(10, 10, 20, 0.8)', // Semi-transparent background

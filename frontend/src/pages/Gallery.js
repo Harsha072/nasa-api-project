@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NavBar from '../components/NavBar';
 
+// Rover and camera configuration
 const ROVERS = ['curiosity', 'opportunity', 'spirit'];
 const CAMERAS = {
   curiosity: ['FHAZ', 'RHAZ', 'MAST', 'CHEMCAM', 'MAHLI', 'MARDI', 'NAVCAM'],
@@ -21,6 +22,105 @@ const CAMERA_NAMES = {
   MINITES: 'Miniature Thermal Emission Spectrometer'
 };
 
+const FALLBACK_IMAGE = '/static/mars-images/fallback-mars.webp';
+
+// Image component with error handling
+const MarsImage = ({ photo }) => {
+  const [imgSrc, setImgSrc] = useState(null); // changed from ''
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!photo.img_src) {
+      setError(true);
+      setLoading(false);
+      setImgSrc(null); // ensure imgSrc is null if not available
+      return;
+    }
+
+    // Normalize image URL
+    let normalizedUrl = photo.img_src;
+    if (normalizedUrl.startsWith('http://')) {
+      normalizedUrl = normalizedUrl.replace('http://', 'https://');
+    }
+    if (normalizedUrl.includes('mars.jpl.nasa.gov')) {
+      normalizedUrl = normalizedUrl.replace('mars.jpl.nasa.gov', 'mars.nasa.gov');
+    }
+
+    // Test if image is available
+    const img = new window.Image();
+    img.onload = () => {
+      setImgSrc(normalizedUrl);
+      setLoading(false);
+      setError(false);
+    };
+    img.onerror = () => {
+      setError(true);
+      setLoading(false);
+      setImgSrc(null); // ensure imgSrc is null if error
+    };
+    img.src = normalizedUrl;
+  }, [photo.img_src]);
+
+  return (
+    <div style={{ position: 'relative', height: '100%' }}>
+      {loading && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(30, 30, 40, 0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            border: '3px solid rgba(255, 255, 255, 0.3)',
+            borderTopColor: '#f7c873',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }} />
+        </div>
+      )}
+
+      {error ? (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(30, 30, 40, 0.9)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#f7c873',
+          padding: '1rem',
+          textAlign: 'center',
+          height: '100%'
+        }}>
+          <span style={{ fontSize: '2rem' }}>🛰️</span>
+          <p>No image available</p>
+        </div>
+      ) : (
+        imgSrc && (
+          <img
+            src={imgSrc}
+            alt={`Mars surface captured by ${photo.rover.name}'s ${photo.camera.full_name}`}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: !loading ? 'block' : 'none'
+            }}
+            loading="lazy"
+          />
+        )
+      )}
+    </div>
+  );
+};
+
+// Main Gallery Component
 export default function GalleryPage() {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +140,7 @@ export default function GalleryPage() {
   useEffect(() => {
     const fetchManifest = async () => {
       try {
-        const response = await fetch(`/api/mars-manifest/${filters.rover}`);
+        const response = await fetch(`http://localhost:5000/api/mars-manifest/${filters.rover}`);
         const data = await response.json();
         setManifest(data.photo_manifest);
       } catch (err) {
@@ -57,22 +157,32 @@ export default function GalleryPage() {
       setError(null);
       
       try {
-        // Build query string from filters
         const params = new URLSearchParams();
         params.append('rover', filters.rover);
-        
         if (filters.camera) params.append('camera', filters.camera);
         if (filters.sol) params.append('sol', filters.sol);
         if (filters.earth_date) params.append('earth_date', filters.earth_date);
         if (filters.page) params.append('page', filters.page);
         
-        const response = await fetch(`/api/mars-photos?${params.toString()}`);
+        const response = await fetch(`http://localhost:5000/api/mars-photos?${params.toString()}`);
         const data = await response.json();
         
-        setPhotos(data.photos || []);
+        // Normalize the photo data structure
+        const normalizedPhotos = data.photos.map(photo => ({
+          id: photo.id,
+          img_src: photo.img_src,
+          rover: {
+            name: photo.rover?.name || photo.rover_name || 'Unknown'
+          },
+          camera: {
+            name: photo.camera?.name || photo.camera_name || 'Unknown',
+            full_name: photo.camera?.full_name || CAMERA_NAMES[photo.camera?.name] || 'Unknown'
+          },
+          earth_date: photo.earth_date || 'Unknown',
+          sol: photo.sol || 'Unknown'
+        }));
         
-        // For real API, you might get total pages from headers
-        // This is a placeholder - adjust based on your actual API response
+        setPhotos(normalizedPhotos);
         setTotalPages(Math.ceil((data.total_photos || 1) / 25));
       } catch (err) {
         setError("Failed to load photos. Please try again.");
@@ -90,7 +200,6 @@ export default function GalleryPage() {
     setFilters(prev => ({
       ...prev,
       [name]: value,
-      // Reset page when other filters change
       ...(name !== 'page' && { page: 1 })
     }));
   };
@@ -111,7 +220,7 @@ export default function GalleryPage() {
       fontFamily: '"Space Mono", monospace, Arial, sans-serif',
       padding: '2rem 0'
     }}>
-    <NavBar/>
+      <NavBar />
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1rem' }}>
         <h1 style={{
           fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
@@ -123,7 +232,7 @@ export default function GalleryPage() {
           MARS ROVER PHOTO GALLERY
         </h1>
 
-        {/* Filter Toggle Button */}
+        {/* Filter Controls */}
         <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <motion.button
             onClick={() => setShowFilters(!showFilters)}
@@ -423,23 +532,8 @@ export default function GalleryPage() {
                         boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)'
                       }}
                     >
-                      <div style={{
-                        height: '220px',
-                        overflow: 'hidden',
-                        position: 'relative'
-                      }}>
-                        <img
-                          src={photo.img_src}
-                          alt={`Mars surface captured by ${photo.rover.name}'s ${photo.camera.full_name}`}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            transition: 'transform 0.5s ease'
-                          }}
-                          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                        />
+                      <div style={{ height: '220px', position: 'relative' }}>
+                        <MarsImage photo={photo} />
                         <div style={{
                           position: 'absolute',
                           bottom: 0,
@@ -500,7 +594,6 @@ export default function GalleryPage() {
                     </button>
 
                     {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
-                      // Show pages around current page
                       let pageNum;
                       if (totalPages <= 5) {
                         pageNum = i + 1;
