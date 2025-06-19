@@ -29,7 +29,7 @@ app.get('/api/mars-photos', async (req, res) => {
     const response = await axios.get(url);
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch Mars Rover photos' });
+    res.status(500).json({ error: 'Failed to fetch Mars Rover photos check logs' });
   }
 });
 
