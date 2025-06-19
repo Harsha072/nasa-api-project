@@ -1,0 +1,28 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: cd backend && npm install
+      - run: cd backend && npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Backend Deploy
+        run: |
+          curl -X POST \
+            "${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}" \
+            -H "Accept: application/json"
