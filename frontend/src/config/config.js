@@ -1,6 +1,6 @@
 const config = {
   apiUrl: process.env.REACT_APP_ENV === 'production' 
-    ? 'https://your-backend-service-name.onrender.com' 
+    ? 'https://nasa-api-project-backend-029v.onrender.com' 
     : 'http://localhost:5000'
 };
 
