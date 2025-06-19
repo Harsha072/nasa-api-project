@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.get('/', (req, res) => {
-  res.send('NASA API Backend is running');
+  res.send('NASA API Backend is running fine');
 });
 
 app.get('/api/mars-photos', async (req, res) => {
