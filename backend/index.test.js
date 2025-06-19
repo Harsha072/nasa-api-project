@@ -10,7 +10,8 @@ describe('Backend API Endpoints', () => {
   });
 
   it('should return Mars Rover photos (mocked)', async () => {
-    const res = await request(app).get('/api/mars-photos?sol=1000');
+    const res = await request(app).get('/api/mars-photos?&sol=1000&rover=curiosity');
+    console.log(res)
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('photos');
   });

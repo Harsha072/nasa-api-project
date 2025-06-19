@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NavBar from '../components/NavBar';
-
+import config from '../config/config';
 // Rover and camera configuration
 const ROVERS = ['curiosity', 'opportunity', 'spirit'];
 const CAMERAS = {
@@ -140,7 +140,7 @@ export default function GalleryPage() {
   useEffect(() => {
     const fetchManifest = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/mars-manifest/${filters.rover}`);
+        const response = await fetch(`${config.apiUrl}/api/mars-manifest/${filters.rover}`);
         const data = await response.json();
         setManifest(data.photo_manifest);
       } catch (err) {
@@ -164,7 +164,7 @@ export default function GalleryPage() {
         if (filters.earth_date) params.append('earth_date', filters.earth_date);
         if (filters.page) params.append('page', filters.page);
         
-        const response = await fetch(`http://localhost:5000/api/mars-photos?${params.toString()}`);
+        const response = await fetch(`${config.apiUrl}/api/mars-photos?${params.toString()}`);
         const data = await response.json();
         
         // Normalize the photo data structure
