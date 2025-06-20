@@ -1,15 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Rovers', href: '#' },
-  { label: 'API Info', href: '#' },
+  { label: 'Statistics', href: '#' },
   { label: 'Contact', href: '#' },
 ];
 
 export default function NavBar() {
+  const location = useLocation();
+
   return (
     <nav style={{
       position: 'fixed', // Make it fixed
@@ -31,16 +32,14 @@ export default function NavBar() {
           <Link
             key={link.label}
             to={link.href}
-            style={{ 
-              color: 'white', 
-              textDecoration: 'none', 
+            style={{
+              color: location.pathname === link.href ? '#f7c873' : 'white',
+              textDecoration: 'none',
               fontSize: '1.1rem',
               padding: '0.5rem 1rem',
               borderRadius: '4px',
-              transition: 'background 0.2s ease',
-              ':hover': {
-                background: 'rgba(255, 255, 255, 0.1)'
-              }
+              background: location.pathname === link.href ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+              transition: 'background 0.2s ease'
             }}
           >
             {link.label}
@@ -49,16 +48,13 @@ export default function NavBar() {
           <a
             key={link.label}
             href={link.href}
-            style={{ 
-              color: 'white', 
-              textDecoration: 'none', 
+            style={{
+              color: 'white',
+              textDecoration: 'none',
               fontSize: '1.1rem',
               padding: '0.5rem 1rem',
               borderRadius: '4px',
-              transition: 'background 0.2s ease',
-              ':hover': {
-                background: 'rgba(255, 255, 255, 0.1)'
-              }
+              transition: 'background 0.2s ease'
             }}
           >
             {link.label}

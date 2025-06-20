@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NavBar from '../components/NavBar';
 import config from '../config/config';
+import { useNavigate } from 'react-router-dom';
+
 // Rover and camera configuration
 const ROVERS = ['curiosity', 'opportunity', 'spirit'];
 const CAMERAS = {
@@ -122,7 +124,8 @@ const MarsImage = ({ photo }) => {
 
 // Main Gallery Component
 export default function GalleryPage() {
-  const [photos, setPhotos] = useState([]);
+  // Store photos as an object keyed by id for uniqueness
+  const [photosById, setPhotosById] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
@@ -135,6 +138,10 @@ export default function GalleryPage() {
   const [manifest, setManifest] = useState(null);
   const [totalPages, setTotalPages] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
+
+  // Log the current photosById state on every render
+  console.log('photosById:', photosById);
 
   // Fetch manifest data when rover changes
   useEffect(() => {
@@ -155,7 +162,7 @@ export default function GalleryPage() {
     const fetchPhotos = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         const params = new URLSearchParams();
         params.append('rover', filters.rover);
@@ -163,10 +170,10 @@ export default function GalleryPage() {
         if (filters.sol) params.append('sol', filters.sol);
         if (filters.earth_date) params.append('earth_date', filters.earth_date);
         if (filters.page) params.append('page', filters.page);
-        
+
         const response = await fetch(`${config.apiUrl}/api/mars-photos?${params.toString()}`);
         const data = await response.json();
-        
+
         // Normalize the photo data structure
         const normalizedPhotos = data.photos.map(photo => ({
           id: photo.id,
@@ -181,8 +188,14 @@ export default function GalleryPage() {
           earth_date: photo.earth_date || 'Unknown',
           sol: photo.sol || 'Unknown'
         }));
-        
-        setPhotos(normalizedPhotos);
+
+        // FIX: When filters change, reset photosById to only the new results
+        const newPhotosById = {};
+        for (const photo of normalizedPhotos) {
+          newPhotosById[photo.id] = photo;
+        }
+        setPhotosById(newPhotosById);
+
         setTotalPages(Math.ceil((data.total_photos || 1) / 25));
       } catch (err) {
         setError("Failed to load photos. Please try again.");
@@ -191,7 +204,7 @@ export default function GalleryPage() {
         setLoading(false);
       }
     };
-    
+
     fetchPhotos();
   }, [filters]);
 
@@ -211,6 +224,9 @@ export default function GalleryPage() {
 
   const maxSol = manifest?.max_sol || 1000;
   const maxDate = manifest?.max_date || '2015-06-03';
+
+  // Convert photosById to array for rendering
+  const photos = Object.values(photosById);
 
   return (
     <div style={{
@@ -563,6 +579,24 @@ export default function GalleryPage() {
                         </div>
                         <div>
                           <span style={{ color: '#f7c873' }}>SOL:</span> {photo.sol}
+                        </div>
+                        {/* Ask questions button */}
+                        <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                          <button
+                            style={{
+                              padding: '0.5rem 1.2rem',
+                              background: '#f7c873',
+                              color: '#222',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontWeight: 'bold',
+                              fontSize: '1rem'
+                            }}
+                            onClick={() => navigate('/chat', { state: { photo } })}
+                          >
+                            Ask questions
+                          </button>
                         </div>
                       </div>
                     </motion.div>
