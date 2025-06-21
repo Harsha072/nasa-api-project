@@ -139,7 +139,7 @@ app.post('/api/mars-weather-summary', async (req, res) => {
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
-        { role: "system", content: "You are a helpful Mars weather scientist." },
+        { role: "system", content: "You are a helpful Mars weather scientist with 20 years of experience." },
         { role: "user", content: prompt }
       ],
       max_tokens: 300
