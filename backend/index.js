@@ -87,6 +87,71 @@ Answer in a concise and informative way.
   }
 });
 
+app.get('/api/mars-weather/:sol', async (req, res) => {
+  try {
+    const { sol } = req.params;
+    const apiKey = process.env.NASA_API_KEY || 'DEMO_KEY';
+    const response = await axios.get(
+      `https://api.nasa.gov/insight_weather/?api_key=${apiKey}&feedtype=json&ver=1.0`
+    );
+    const allData = response.data;
+    console.log("all data" ,allData)
+    const weather = allData[sol];
+    if (!weather) return res.status(404).json({ error: 'Sol not found' });
+    // WD is an object with keys for directions and 'most_common', filter out 'most_common'
+    const windData = Object.entries(weather.WD || {})
+      .filter(([key, wd]) => key !== 'most_common' && typeof wd === 'object' && wd.ct)
+      .map(([key, wd]) => ({
+        direction: wd.compass_point,
+        degrees: wd.compass_degrees,
+        count: wd.ct
+      }));
+    res.json({
+      temperature: weather.AT?.av,
+      pressure: weather.PRE?.av,
+      windData,
+      sol
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch weather' });
+  }
+});
+
+app.get('/api/mars-weather', async (req, res) => {
+  try {
+    const apiKey = process.env.NASA_API_KEY || 'DEMO_KEY';
+    const response = await axios.get(
+      `https://api.nasa.gov/insight_weather/?api_key=${apiKey}&feedtype=json&ver=1.0`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch all Mars weather data' });
+  }
+});
+
+app.post('/api/mars-weather-summary', async (req, res) => {
+  const weatherData = req.body;
+  if (!weatherData) {
+    return res.status(400).json({ error: 'Missing weather data' });
+  }
+  const prompt = `You are a Mars weather scientist. Given the following Mars weather data for a single Sol, provide a concise, clear summary for a general audience. Highlight temperature, pressure, wind patterns, and any notable features.\n\nMars Weather Data (JSON):\n${JSON.stringify(weatherData, null, 2)}\n\nSummary:`;
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful Mars weather scientist." },
+        { role: "user", content: prompt }
+      ],
+      max_tokens: 300
+    });
+    const summary = completion.choices[0].message.content.trim();
+    res.json({ summary });
+  } catch (err) {
+    console.error('OpenAI error:', err.response?.data || err.message);
+    res.status(500).json({ error: 'Failed to generate summary from OpenAI' });
+  }
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

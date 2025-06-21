@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 // import GalleryPage from './pages/GalleryPage';
 import GalleryPage from './pages/Gallery';
 import Chat from './pages/Chat';
+import Weatherforcast from './pages/Weatherforecast';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/weather" element={<Weatherforcast />} />
         {/* ...existing routes... */}
       </Routes>
     </Router>
