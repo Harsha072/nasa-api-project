@@ -339,7 +339,7 @@ export default function Chat() {
             justifyContent: 'center',
             flexWrap: 'wrap'
           }}>
-            {/* Rover details + manifest card */}
+            {/* Rover details + manifest card updated*/}
             <div style={{
               flex: '0 0 350px',
               minWidth: '300px',
