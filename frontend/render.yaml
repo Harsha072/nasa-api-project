@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: your-app-name  # Replace with your app name
-    buildCommand: npm run build
-    staticPublishPath: build/      # Or "dist/" for Vite
-    routes:
-      - type: rewrite
-        source: "/*"
-        destination: "/index.html"
