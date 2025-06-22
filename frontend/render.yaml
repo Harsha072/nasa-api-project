@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: Mars Insights
+    buildCommand: npm run build
+    staticPublishPath: build/  # or "dist/" for Vite
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
