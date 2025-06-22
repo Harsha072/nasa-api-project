@@ -140,7 +140,7 @@ export default function GalleryPage() {
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
-  // Log the current photosById state on every render
+  
  
 
   // Fetch manifest data when rover changes
@@ -198,7 +198,7 @@ export default function GalleryPage() {
 
         setTotalPages(Math.ceil((data.total_photos || 1) / 25));
       } catch (err) {
-        setError("Failed to load photos. Please try again.");
+        setError("Failed to load the photos. Please try again.");
        
       } finally {
         setLoading(false);
