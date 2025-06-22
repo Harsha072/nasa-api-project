@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import GalleryPage from './pages/Gallery';
 import Chat from './pages/Chat';
 import Weatherforcast from './pages/Weatherforecast';
+import About from './pages/About';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/weather" element={<Weatherforcast />} />
+        <Route path="/about" element={<About />} />
         {/* ...existing routes... */}
       </Routes>
     </Router>
