@@ -6,6 +6,7 @@ import GalleryPage from './pages/Gallery';
 import Chat from './pages/Chat';
 import Weatherforcast from './pages/Weatherforecast';
 import About from './pages/About';
+import NasaPictureOfTheDay from './pages/NasaPictureOfTheDay';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/weather" element={<Weatherforcast />} />
         <Route path="/about" element={<About />} />
+         <Route path="/picture" element={<NasaPictureOfTheDay />} />
         {/* ...existing routes... */}
       </Routes>
     </Router>

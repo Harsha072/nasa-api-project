@@ -207,6 +207,20 @@ app.post('/api/mars-weather-summary', async (req, res) => {
   }
 });
 
+// Get NASA Astronomy Picture of the Day (APOD)
+// GET /api/picture-of-the-day
+// Sends: JSON with APOD data from NASA API
+app.get('/api/picture-of-the-day', async (req, res) => {
+  try {
+    const apiKey = process.env.NASA_API_KEY || 'DEMO_KEY';
+    const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
+    const response = await axios.get(url);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch NASA Picture of the Day' });
+  }
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

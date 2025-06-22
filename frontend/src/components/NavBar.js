@@ -5,7 +5,8 @@ const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Weather', href: '/weather' },
-  { label: 'About', href: '/about' },
+  { label: 'Picture of the day', href: '/picture' },
+  { label: 'About', href: '/about' }
 ];
 
 export default function NavBar() {

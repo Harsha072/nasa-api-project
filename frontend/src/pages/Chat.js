@@ -336,7 +336,7 @@ export default function Chat() {
             flexDirection: 'row',
             gap: '2.5rem',
             alignItems: 'flex-start',
-            justifyContent: 'center',
+            justifyContent: 'right',
             flexWrap: 'wrap'
           }}>
             {/* Rover details + manifest card updated*/}
