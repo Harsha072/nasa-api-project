@@ -1,8 +1,8 @@
 services:
   - type: web
-    name: Mars Insights
+    name: your-app-name  # Replace with your app name
     buildCommand: npm run build
-    staticPublishPath: build/  # or "dist/" for Vite
+    staticPublishPath: build/      # Or "dist/" for Vite
     routes:
       - type: rewrite
         source: "/*"
