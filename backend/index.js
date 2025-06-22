@@ -21,7 +21,7 @@ app.use(limiter);
 const allowedOrigins = (process.env.CORS_ORIGINS || '').split(',').map(o => o.trim()).filter(Boolean);
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, etc.)
+    
     if (!origin) return callback(null, true);
     if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -32,24 +32,31 @@ app.use(cors({
 
 app.use(express.json());
 
-// Initialize OpenAI with v4.x syntax
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-// --- Never send NASA or OpenAI API keys to the client/browser ---
 
-// Root endpoint: Simple health check
-// GET /
-// Response: Plain text message indicating backend is running
+/*
+______________________________________________________________
+Root endpoint: Simple health check
+GET /
+Response: Plain text message indicating backend is running
+_______________________________________________________________
+*/
 app.get('/', (req, res) => {
   res.send('NASA API Backend is running fine');
 });
 
-// Get Mars Rover photos from NASA API
-// GET /api/mars-photos?rover={rover}&sol={sol}&earth_date={earth_date}&camera={camera}&page={page}
-// Receives: Query params for rover, sol, earth_date, camera, page
-// Sends: JSON with photos array from NASA API
+/*
+_________________________________________________________________
+Get Mars Rover photos from NASA API
+GET /api/mars-photos?rover={rover}&sol={sol}&earth_date={earth_date}&camera={camera}&page={page}
+Receives: Query params for rover, sol, earth_date, camera, page
+Sends: JSON with photos array from NASA API
+___________________________________________________________________
+* */
 app.get('/api/mars-photos', async (req, res) => {
   const { rover, sol, earth_date, camera, page = 1 } = req.query;
   const roverName = rover;
@@ -66,10 +73,16 @@ app.get('/api/mars-photos', async (req, res) => {
   }
 });
 
-// Get Mars Rover manifest (mission summary) from NASA API
-// GET /api/mars-manifest/:rover
-// Receives: URL param 'rover' (e.g., curiosity, opportunity, spirit)
-// Sends: JSON manifest data for the specified rover
+
+
+/*
+_____________________________________________________________________
+Get Mars Rover manifest (mission summary) from NASA API
+GET /api/mars-manifest/:rover
+Receives: URL param 'rover' (e.g., curiosity, opportunity, spirit)
+Sends: JSON manifest data for the specified rover
+______________________________________________________________________
+ */
 app.get('/api/mars-manifest/:rover', async (req, res) => {
   const { rover } = req.params;
   const apiKey = process.env.NASA_API_KEY || 'DEMO_KEY';
@@ -82,13 +95,16 @@ app.get('/api/mars-manifest/:rover', async (req, res) => {
   }
 });
 
-// Ask a question about a Mars Rover photo using OpenAI
-// POST /api/rover-qa
-// Receives: JSON body { question: string, photo: object }
-// Sends: JSON { answer: string, generatedText: string } (OpenAI's answer)
+/*
+_______________________________________________________________________
+Ask a question about a Mars Rover photo using OpenAI
+POST /api/rover-qa
+Receives: JSON body { question: string, photo: object }
+Sends: JSON { answer: string, generatedText: string } (OpenAI's answer)
+________________________________________________________________________
+*/
 app.post('/api/rover-qa', async (req, res) => {
   const { question, photo } = req.body;
-  // --- Security: Input Validation ---
   if (
     typeof question !== 'string' ||
     !question.trim() ||
@@ -100,7 +116,7 @@ app.post('/api/rover-qa', async (req, res) => {
     return res.status(400).json({ error: 'Invalid question or photo details' });
   }
 
-  // Compose a prompt for OpenAI
+  // A prompt for OpenAI
   const prompt = `
 You are a Mars Rover expert. Here are the details of a Mars Rover photo:
 Rover: ${photo.rover?.name}
@@ -115,7 +131,7 @@ Answer in a concise and informative way.
 `;
 
   try {
-    const completion = await openai.chat.completions.create({  // Updated method for v4.x
+    const completion = await openai.chat.completions.create({  
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: "You are a helpful Mars Rover expert." },
@@ -124,17 +140,21 @@ Answer in a concise and informative way.
       max_tokens: 300
     });
 
-    const answer = completion.choices[0].message.content.trim();  // Updated response structure
+    const answer = completion.choices[0].message.content.trim();  
     res.json({ answer, generatedText: answer });
   } catch (err) {
     res.status(500).json({ error: 'Failed to get answer from OpenAI' });
   }
 });
 
-// Get Mars weather for a specific sol (Martian day)
-// GET /api/mars-weather/:sol
-// Receives: URL param 'sol' (Martian day number)
-// Sends: JSON with temperature, pressure, windData, and sol
+/*
+______________________________________________________________________ 
+Get Mars weather for a specific sol (Martian day)
+GET /api/mars-weather/:sol
+Receives: URL param 'sol' (Martian day number)
+Sends: JSON with temperature, pressure, windData, and sol
+_______________________________________________________________________
+ */
 app.get('/api/mars-weather/:sol', async (req, res) => {
   try {
     const { sol } = req.params;
@@ -145,7 +165,6 @@ app.get('/api/mars-weather/:sol', async (req, res) => {
     const allData = response.data;
     const weather = allData[sol];
     if (!weather) return res.status(404).json({ error: 'Sol not found' });
-    // WD is an object with keys for directions and 'most_common', filter out 'most_common'
     const windData = Object.entries(weather.WD || {})
       .filter(([key, wd]) => key !== 'most_common' && typeof wd === 'object' && wd.ct)
       .map(([key, wd]) => ({
@@ -164,10 +183,15 @@ app.get('/api/mars-weather/:sol', async (req, res) => {
   }
 });
 
-// Get all available Mars weather data from NASA InSight API
-// GET /api/mars-weather
-// Receives: No parameters
-// Sends: JSON with all weather data from NASA InSight API
+
+/*
+___________________________________________________________________
+Get all available Mars weather data from NASA InSight API
+GET /api/mars-weather
+Receives: No parameters
+Sends: JSON with all weather data from NASA InSight API
+___________________________________________________________________
+ */
 app.get('/api/mars-weather', async (req, res) => {
   try {
     const apiKey = process.env.NASA_API_KEY || 'DEMO_KEY';
@@ -180,10 +204,14 @@ app.get('/api/mars-weather', async (req, res) => {
   }
 });
 
-// Generate a summary of Mars weather data using OpenAI
-// POST /api/mars-weather-summary
-// Receives: JSON body with Mars weather data for a single sol
-// Sends: JSON { summary: string } (OpenAI's summary)
+/** 
+______________________________________________________________
+Generate a summary of Mars weather data using OpenAI
+POST /api/mars-weather-summary
+Receives: JSON body with Mars weather data for a single sol
+Sends: JSON { summary: string } (OpenAI's summary)
+________________________________________________________________
+ */ 
 app.post('/api/mars-weather-summary', async (req, res) => {
   const weatherData = req.body;
   // --- Security: Input Validation ---
@@ -207,9 +235,14 @@ app.post('/api/mars-weather-summary', async (req, res) => {
   }
 });
 
-// Get NASA Astronomy Picture of the Day (APOD)
-// GET /api/picture-of-the-day
-// Sends: JSON with APOD data from NASA API
+/*
+____________________________________________________________________________
+Get NASA Astronomy Picture of the Day (APOD)
+ GET /api/picture-of-the-day
+ Sends: JSON with APOD data from NASA API
+ ____________________________________________________________________________
+**/
+
 app.get('/api/picture-of-the-day', async (req, res) => {
   try {
     const apiKey = process.env.NASA_API_KEY || 'DEMO_KEY';

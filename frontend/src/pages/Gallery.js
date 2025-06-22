@@ -141,7 +141,7 @@ export default function GalleryPage() {
   const navigate = useNavigate();
 
   // Log the current photosById state on every render
-  console.log('photosById:', photosById);
+ 
 
   // Fetch manifest data when rover changes
   useEffect(() => {
@@ -151,7 +151,7 @@ export default function GalleryPage() {
         const data = await response.json();
         setManifest(data.photo_manifest);
       } catch (err) {
-        console.error("Error fetching manifest:", err);
+       
       }
     };
     fetchManifest();
@@ -199,7 +199,7 @@ export default function GalleryPage() {
         setTotalPages(Math.ceil((data.total_photos || 1) / 25));
       } catch (err) {
         setError("Failed to load photos. Please try again.");
-        console.error("Error fetching photos:", err);
+       
       } finally {
         setLoading(false);
       }

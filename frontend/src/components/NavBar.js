@@ -14,7 +14,7 @@ export default function NavBar() {
 
   return (
     <nav style={{
-      position: 'fixed', // Make it fixed
+      position: 'fixed', 
       top: 0,
       left: 0,
       right: 0,
@@ -23,9 +23,9 @@ export default function NavBar() {
       gap: '2rem',
       fontWeight: 'bold',
       letterSpacing: '1px',
-      background: 'rgba(10, 10, 20, 0.8)', // Semi-transparent background
-      backdropFilter: 'blur(8px)', // Frosted glass effect
-      zIndex: 1000, // Very high z-index to ensure it's on top
+      background: 'rgba(10, 10, 20, 0.8)', 
+      backdropFilter: 'blur(8px)', 
+      zIndex: 1000, 
       borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
     }}>
       {NAV_LINKS.map(link =>

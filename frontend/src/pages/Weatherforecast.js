@@ -18,7 +18,7 @@ export default function Weatherforcast() {
     fetch(`${config.apiUrl}/api/mars-weather`)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+     
         setAllData(data);
         if (data.sol_keys && data.sol_keys.length > 0) {
           setSolKeys(data.sol_keys);
@@ -71,7 +71,7 @@ export default function Weatherforcast() {
   let chartData = null;
   let chartOptions = null;
   let windData = [];
-  console.log("weather according to sol", JSON.stringify(weather))
+
   if (weather && weather.WD) {
     windData = Object.entries(weather.WD)
       .filter(([key, wd]) => key !== 'most_common' && typeof wd === 'object' && wd.ct)
@@ -104,12 +104,12 @@ export default function Weatherforcast() {
         scales: {
           r: {
             beginAtZero: true,
-            backgroundColor: 'rgba(80, 80, 174, 0.95)', // darker background for the chart area
+            backgroundColor: 'rgba(80, 80, 174, 0.95)', 
             grid: {
-              color: 'rgba(5, 5, 5, 0.7)' // darker grid/circle lines
+              color: 'rgba(5, 5, 5, 0.7)' 
             },
             angleLines: {
-              color: 'rgba(0, 0, 4, 0.7)' // darker angle lines
+              color: 'rgba(0, 0, 4, 0.7)'
             },
             pointLabels: {
               color: '#f7c873'

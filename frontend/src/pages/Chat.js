@@ -111,7 +111,7 @@ function RoverQuestionBox({ photo }) {
       setDisplayedText('');
       return;
     }
-    console.log('generatedText while printing:', generatedText); // Print the generated text
+   // Print the generated text
     let i = 0;
     setDisplayedText('');
     const interval = setInterval(() => {
@@ -146,14 +146,14 @@ function RoverQuestionBox({ photo }) {
         }
       };
       // Send to backend
-      console.log("payload ", formattedPayload)
+     
       const res = await fetch(`${config.apiUrl}/api/rover-qa`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formattedPayload)
       });
       const data = await res.json();
-      console.log("got data ", data);
+     
       // Fix: Prefer data.generatedText, fallback to data.answer, but never append undefined
       const text = data.generatedText !== undefined
         ? data.generatedText

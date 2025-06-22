@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# Mars Insights Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Mars Insights is a modern React-based web application that allows users to explore Mars Rover photos, view real-time Martian weather, and interact with AI-powered Q&A features. The frontend is built with [Create React App](https://github.com/facebook/create-react-app) and communicates with a Node.js/Express backend.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Browse Mars Rover photos by date, rover, and camera
+- View mission summaries and rover details
+- See daily Mars weather data from NASA’s InSight lander
+- Ask questions about Mars photos and get instant, AI-powered answers
+- Enjoy AI-generated, easy-to-read summaries of complex Mars weather data
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [Node.js](https://nodejs.org/) (v16 or above recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/nasa-api-project.git
+   cd nasa-api-project/frontend
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Environment Variables:**
 
-### `npm run eject`
+   Create a `.env` file in the `frontend` directory if you need to override defaults.  
+   By default, the frontend expects the backend to run at `http://localhost:5000` in development.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   Example `.env`:
+   ```
+   REACT_APP_ENV=development
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   > **Note:** For production, the backend URL is set in `src/config/config.js`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. **Run the development server:**
+   ```bash
+   npm start
+   ```
+   The app will be available at [http://localhost:3000](http://localhost:3000).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Build for Production
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To create an optimized production build:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run build
+```
 
-### Code Splitting
+The build output will be in the `build/` directory.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- The app is ready to be deployed to any static hosting provider (e.g., Render, Netlify, Vercel).
+- For SPA routing on Render, ensure you have a `render.yaml` file with the correct rewrite rules.
+- No `_redirects` file is needed if using `render.yaml`.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Project Structure
 
-### Advanced Configuration
+```
+frontend/
+  ├── public/
+  ├── src/
+  │   ├── components/
+  │   ├── pages/
+  │   ├── config/
+  │   ├── App.js
+  │   └── ...
+  ├── package.json
+  └── README.md
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## API Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- The frontend expects the backend API to be running and accessible at the URL specified in `src/config/config.js`.
+- All API requests are proxied to the backend for data retrieval and AI-powered features.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Troubleshooting
+
+- If you encounter CORS issues, ensure the backend is configured to allow requests from your frontend's origin.
+- For any issues with API keys or environment variables, check the backend README.
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Contact
+
+For questions or support, please contact [harshaswamy789@gmail.com](mailto:harshaswamy789@gmail.com).
