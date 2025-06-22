@@ -64,13 +64,13 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
   └── frontend/ # React SPA (Create React App)
 
 ## Getting started
- # Frontend setup
- # Prerequisites
+### Frontend setup
+#### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v16 or above recommended)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
 
-# Installation
+#### Installation
 
 1. **Clone the repository:**
    ```bash
@@ -103,7 +103,7 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
 
 ---
 
-# Build for Production
+#### Build for Production
 
 To create an optimized production build:
 
@@ -115,7 +115,7 @@ The build output will be in the `build/` directory.
 
 ---
 
-# Deployment
+#### Deployment
 
 - The app is ready to be deployed to any static hosting provider (e.g., Render, Netlify, Vercel).
 - For SPA routing on Render, ensure you have a `render.yaml` file with the correct rewrite rules.
@@ -123,7 +123,7 @@ The build output will be in the `build/` directory.
 
 ---
 
-# Project Structure
+#### Project Structure
 
 ```
 frontend/
@@ -140,7 +140,7 @@ frontend/
 
 ---
 
-# API Integration
+#### API Integration
 
 - The frontend expects the backend API to be running and accessible at the URL specified in `src/config/config.js`.
 - All API requests are proxied to the backend for data retrieval and AI-powered features.
