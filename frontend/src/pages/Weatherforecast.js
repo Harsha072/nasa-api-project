@@ -87,13 +87,13 @@ export default function Weatherforcast() {
           label: 'Wind Direction Frequency',
           data: windData.map(wd => wd.count),
           backgroundColor: [
-            'rgba(255, 168, 0, 0.6)',
-            'rgba(247, 200, 115, 0.6)',
-            'rgba(255, 224, 178, 0.6)',
-            'rgba(255, 111, 97, 0.6)',
-            'rgba(26, 39, 53, 0.6)',
-            'rgba(10, 10, 20, 0.6)',
-            'rgba(255, 255, 255, 0.6)',
+            'rgba(40, 40, 60, 0.85)',
+            'rgba(60, 60, 90, 0.85)',
+            'rgba(80, 80, 120, 0.85)',
+            'rgba(100, 100, 140, 0.85)',
+            'rgba(30, 39, 53, 0.85)',
+            'rgba(10, 10, 20, 0.85)',
+            'rgba(70, 70, 90, 0.85)',
           ],
           borderColor: '#f7c873',
           borderWidth: 1
@@ -101,7 +101,24 @@ export default function Weatherforcast() {
       };
       chartOptions = {
         plugins: { title: { display: true, text: `Wind Rose for Sol ${sol}` } },
-        scales: { r: { beginAtZero: true } },
+        scales: {
+          r: {
+            beginAtZero: true,
+            backgroundColor: 'rgba(80, 80, 174, 0.95)', // darker background for the chart area
+            grid: {
+              color: 'rgba(5, 5, 5, 0.7)' // darker grid/circle lines
+            },
+            angleLines: {
+              color: 'rgba(0, 0, 4, 0.7)' // darker angle lines
+            },
+            pointLabels: {
+              color: '#f7c873'
+            },
+            ticks: {
+              color: '#fff'
+            }
+          }
+        },
       };
     }
   }
