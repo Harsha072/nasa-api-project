@@ -9,12 +9,10 @@ Mars Insights is a full-stack web application that enables users to explore Mars
 - [Project Overview](#project-overview)
 - [Screenshots](#screenshots)
 - [Features](#features)
-- [Architecture](#architecture)
 - [Getting Started](#getting-started)
   - [Frontend Setup](#frontend-setup)
   - [Backend Setup](#backend-setup)
 - [API Endpoints](#api-endpoints)
-- [Testing](#testing)
 - [Deployment](#deployment)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
@@ -30,13 +28,10 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
 
 ## Screenshots
 
-<!-- Add your screenshots below. Example: -->
-<p align="center">
-  <img src="screenshots/homepage.png" alt="Mars Insights Home" width="700"/>
-  <br>
-  <em>Home Page</em>
-</p>
+<!-- Example with local image -->
+![Home Page](screenshots/homepage.png)
 
+<!-- Example with centered image and caption -->
 <p align="center">
   <img src="screenshots/gallery.png" alt="Mars Rover Gallery" width="700"/>
   <br>
@@ -46,6 +41,7 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
 <!-- Add more screenshots as needed -->
 
 ---
+
 
 ## Features
 
@@ -144,6 +140,16 @@ frontend/
 - [Node.js](https://nodejs.org/) (v16 or above recommended)
 - [npm](https://www.npmjs.com/)
 
+#### Project structure
+```
+Backend/
+  ├── index.js
+  ├── index.test.js
+  ├── package-lock.json 
+  ├── package.json
+  └── README.md
+```
+
 #### Installation
 
 1. **Clone the repository:**
@@ -220,6 +226,14 @@ npm test
 #### Deployment
 
 - The backend is deployed on Render.com - https://nasa-api-project-backend-029v.onrender.com
+
+## License
+
+This project is licensed under the MIT License.
+
+## Contact
+
+For questions or support, please contact [harshaswamy789@gmail.com](mailto:harshaswamy789@gmail.com).
 
 
 
