@@ -20,7 +20,7 @@ export default function NasaPictureOfTheDay() {
         setLoading(false);
       })
       .catch(() => {
-        setError('Could not load NASA Picture of the Day.');
+        setError('Failed to load picture of the day. Please try again.');
         setLoading(false);
       });
   }, []);
@@ -56,7 +56,18 @@ export default function NasaPictureOfTheDay() {
           <div style={{ margin: '2rem 0', color: '#ffe0b2' }}>Loading...</div>
         )}
         {error && (
-          <div style={{ margin: '2rem 0', color: '#ffb2b2' }}>{error}</div>
+          <div style={{
+            background: 'rgba(150, 30, 30, 0.7)',
+            color: '#fff',
+            borderRadius: 8,
+            padding: '1.2rem',
+            margin: '1.5rem auto',
+            maxWidth: 600,
+            textAlign: 'center',
+            fontWeight: 'bold'
+          }}>
+            {error}
+          </div>
         )}
         {data && !loading && !error && (
           <div>

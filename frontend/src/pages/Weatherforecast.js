@@ -12,21 +12,27 @@ export default function Weatherforcast() {
   const [weather, setWeather] = useState(null);
   const [summary, setSummary] = useState('');
   const [displayedSummary, setDisplayedSummary] = useState('');
+  const [error, setError] = useState(null); // Add error state
 
   useEffect(() => {
     // Fetch the entire data object from backend (assume /api/mars-weather returns the full object)
     fetch(`${config.apiUrl}/api/mars-weather`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
       .then(data => {
-     
         setAllData(data);
+        setError(null); // Clear error if successful
         if (data.sol_keys && data.sol_keys.length > 0) {
           setSolKeys(data.sol_keys);
           setSol(data.sol_keys[data.sol_keys.length - 1]);
         }
+      })
+      .catch(() => {
+        setError("Failed to fetch weather forecast. Please try again.");
       });
   }, []);
-
 
   useEffect(() => {
     if (!allData || !sol) return;
@@ -36,17 +42,20 @@ export default function Weatherforcast() {
   // Fetch summary from backend when weather changes
   useEffect(() => {
     if (!weather) return;
-    // Fetch summary from backend
     setSummary(''); // Clear previous summary while loading
     fetch(`${config.apiUrl}/api/mars-weather-summary`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(weather)
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
       .then(data => {
         if (data.summary) setSummary(data.summary);
         else setSummary('No summary available.');
+        setError(null); // Clear error if successful
       })
       .catch(() => setSummary('Failed to fetch summary.'));
   }, [weather]);
@@ -143,6 +152,21 @@ export default function Weatherforcast() {
         }}>
           Mars Wind Rose Chart
         </h1>
+        {/* Error message display */}
+        {error && (
+          <div style={{
+            background: 'rgba(150, 30, 30, 0.7)',
+            color: '#fff',
+            borderRadius: 8,
+            padding: '1.2rem',
+            margin: '1.5rem auto',
+            maxWidth: 600,
+            textAlign: 'center',
+            fontWeight: 'bold'
+          }}>
+            {error}
+          </div>
+        )}
         <p style={{
           maxWidth: 1200,
           margin: '0 auto 2.2rem auto',
