@@ -34,7 +34,7 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
 <p align="center">
   <img src="./screenshots/screenshot2.png" alt="Mars Weather Forecast" width="700"/>
   <br>
-  <em>Mars Weather Forecast Page</em>
+  <em>Mars Weather Forecast Page 1</em>
 </p>
 
 <!-- Add more screenshots as needed, e.g.: -->
