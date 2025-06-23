@@ -43,6 +43,9 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
 - Gallery page
 ![imgage alt](https://github.com/Harsha072/nasa-api-project/blob/ac8333062352c811dbd809c6142f78e3b402d2a8/screenshot1.PNG?raw=true)
 
+- Mars weather page
+![image alt](https://github.com/Harsha072/nasa-api-project/blob/a96ec26f9c0b918cd4f63d166e03e3af7cc91338/screenshot2.PNG?raw=true)
+
 ## Getting started
 ### Frontend setup
 #### Prerequisites
