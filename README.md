@@ -18,9 +18,7 @@ Mars Insights is a full-stack web application that enables users to explore Mars
 - [Contact](#contact)
 
 ---
-## Screenshot
-- Gallery page
-![imgage alt](https://github.com/Harsha072/nasa-api-project/blob/ac8333062352c811dbd809c6142f78e3b402d2a8/screenshot1.PNG?raw=true)
+
 
 ## Project Overview
 
@@ -40,6 +38,10 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
 - **Secure & Modern:** Rate limiting, CORS security, and production-ready deployment.
 
 ---
+
+## Screenshot
+- Gallery page
+![imgage alt](https://github.com/Harsha072/nasa-api-project/blob/ac8333062352c811dbd809c6142f78e3b402d2a8/screenshot1.PNG?raw=true)
 
 ## Getting started
 ### Frontend setup
