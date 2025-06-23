@@ -30,6 +30,7 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
 
 <!-- Example with local image -->
 ![Gallery Page](screenshots/screenshot1.png)
+<img src="screenshots/screenshot2.png" alt="Weather" width="700"/>
 
 <!-- Example with centered image and caption -->
 <p align="center">
