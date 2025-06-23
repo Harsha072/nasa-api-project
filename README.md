@@ -38,7 +38,9 @@ Mars Insights provides a seamless experience for space enthusiasts, students, an
   <em>Mars Weather page</em>
 </p>
 
-<!-- Add more screenshots as needed -->
+<!-- Add more screenshots as needed, e.g.: -->
+<!-- ![Chat Page](screenshots/screenshot3.png) -->
+<!-- <p align="center"><img src="screenshots/screenshot4.png" alt="Picture of the Day" width="700"/><br><em>Picture of the Day</em></p> -->
 
 ---
 
