@@ -19,7 +19,8 @@ Mars Insights is a full-stack web application that enables users to explore Mars
 
 ---
 ## Screenshot
-![Alt text](nasa-api-project/screenshots/screenshot1.png?raw=true "Optional Title")
+- Gallery page
+![imgage alt](https://github.com/Harsha072/nasa-api-project/blob/ac8333062352c811dbd809c6142f78e3b402d2a8/screenshot1.PNG?raw=true)
 
 ## Project Overview
 
