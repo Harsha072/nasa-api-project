@@ -25,18 +25,16 @@ Mars Insights is a full-stack web application that enables users to explore Mars
 Mars Insights provides a seamless experience for space enthusiasts, students, and the curious to interactively explore Mars through authentic NASA data. Users can browse rover images, check Martian weather, and ask questions about Mars missions, all powered by real APIs and AI.
 
 ---
-
 ## Screenshots
 
-<!-- Example with local image -->
-![Gallery Page](screenshots/screenshot1.png)
-<img src="screenshots/screenshot2.png" alt="Weather" width="700"/>
+### Gallery Page
+![Gallery Page](./screenshots/screenshot1.png)
 
-<!-- Example with centered image and caption -->
+### Weather Forecast
 <p align="center">
-  <img src="screenshots/screenshot2.png" alt="Weather" width="700"/>
+  <img src="./screenshots/screenshot2.png" alt="Mars Weather Forecast" width="700"/>
   <br>
-  <em>Mars Weather page</em>
+  <em>Mars Weather Forecast Page</em>
 </p>
 
 <!-- Add more screenshots as needed, e.g.: -->
